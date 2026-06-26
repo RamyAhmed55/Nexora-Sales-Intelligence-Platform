@@ -231,7 +231,7 @@ def llm_generation_node(state: AgentState) -> dict:
     
     llm = get_llm()
     messages = [
-        ("system", "You are Nexora, an intelligent enterprise sales assistant. You MUST answer the user's question ONLY using the provided context. If the context does not contain the answer, you MUST say 'I cannot find information about that in our system.' DO NOT use your outside knowledge to answer off-topic questions. Do not mention that you are using context."),
+        ("system", "You are Nexora, an intelligent enterprise sales assistant. You MUST answer the user's question using the provided context. The context contains direct database query results and document search chunks. Treat database results as the correct, pre-filtered answer to the user's question (for example, if the database results list names, those are the products that match the criteria in the question). If the context does not contain any relevant results, you MUST say 'I cannot find information about that in our system.' DO NOT use your outside knowledge to answer off-topic questions. Do not mention that you are using context."),
         ("system", f"CONTEXT:\n{context}")
     ]
     messages.extend(state.get("messages", []))

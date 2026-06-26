@@ -5,7 +5,7 @@ DATABASE_PERMISSIONS = {
     "sales": {
         "allowed_tables": {
             "products": {
-                "columns": ["name", "category", "price", "tier", "stock_quantity", "is_active"],
+                "columns": ["id", "name", "category", "price", "tier", "stock_quantity", "is_active"],
             },
             "sales_records": {
                 "columns": ["product_id", "customer_name", "quantity", "unit_price",
@@ -18,7 +18,7 @@ DATABASE_PERMISSIONS = {
     "support": {
         "allowed_tables": {
             "products": {
-                "columns": ["name", "category", "price", "tier", "stock_quantity", "is_active"],
+                "columns": ["id", "name", "category", "price", "tier", "stock_quantity", "is_active"],
             },
         },
         "denied_message": "As a Support agent, you can look up product details. Sales data and analytics are restricted to Managers and Admins.",
@@ -26,14 +26,14 @@ DATABASE_PERMISSIONS = {
     "manager": {
         "allowed_tables": {
             "products": {
-                "columns": ["name", "category", "price", "tier", "stock_quantity", "is_active"],
+                "columns": ["id", "name", "category", "price", "tier", "stock_quantity", "is_active"],
             },
             "sales_records": {
                 "columns": ["product_id", "sales_rep_id", "customer_name", "customer_email",
                             "quantity", "unit_price", "total_amount", "region", "status", "sale_date"],
             },
             "users": {
-                "columns": ["full_name", "email", "role", "department", "is_active"],
+                "columns": ["id", "full_name", "email", "role", "department", "is_active"],
             },
             "feedback": {
                 "columns": ["message_id", "user_id", "score", "correction_text", "created_at"],
@@ -100,7 +100,8 @@ def get_schema_for_role(role: str) -> str:
     return "\n".join(schema_parts)
 
 def extract_table_names(sql: str) -> set[str]:
-    pattern = r'(?:FROM|JOIN)\s+([a-zA-Z_][a-zA-Z0-9_]*)'
+    # Match optional schema prefix like 'public.' and extract only the table name
+    pattern = r'(?:FROM|JOIN)\s+(?:[a-zA-Z_][a-zA-Z0-9_]*\.)?([a-zA-Z_][a-zA-Z0-9_]*)'
     matches = re.findall(pattern, sql, re.IGNORECASE)
     return set(matches)
 

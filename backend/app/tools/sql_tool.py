@@ -33,6 +33,10 @@ async def sql_query(question: str, user_id: str, user_role: str) -> str:
     llm = get_llm()
     prompt = f"""You are a PostgreSQL expert. Given the user's question, write a SQL query to answer it.
 Return ONLY the raw SQL query, no markdown, no explanation.
+
+CRITICAL INSTRUCTION:
+When writing the SELECT query, make sure to include any columns referenced in the WHERE filter conditions (such as prices, dates, active status, etc.) in the SELECT statement. This allows the user to see the actual values that justify why the rows were retrieved. For example, if filtering products by price > 1000, select both 'name' and 'price'.
+
 If the user asks for data (like a specific column) that is NOT present in the provided schema, return EXACTLY the string: PERMISSION_DENIED
 
 DATABASE SCHEMA:
