@@ -48,7 +48,7 @@ async def chat_endpoint(request: ChatRequest, user: UserContext = Depends(get_cu
                 # If we bypassed the LLM, manually stream the hardcoded answer at the end of the node
                 elif kind == "on_chain_end":
                     node_name = event.get("name", "")
-                    if node_name in ["llm_generation", "direct_response"]:
+                    if node_name in ["llm_generation", "direct_response", "llm_generation_node", "direct_response_node"]:
                         if not tokens_streamed:
                             output = event.get("data", {}).get("output", {})
                             if isinstance(output, dict) and "answer" in output:

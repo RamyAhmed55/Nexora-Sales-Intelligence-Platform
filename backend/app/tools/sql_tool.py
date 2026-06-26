@@ -57,11 +57,21 @@ SQL QUERY:"""
     # LAYER 2: Validate SQL Safety
     is_safe, safety_msg = validate_sql_safety(generated_sql)
     if not is_safe:
+        from app.auth.security_logger import log_security_alert
+        from app.auth import user_store
+        user_info = user_store.get_user_by_id(user_id)
+        user_name = user_info.get("full_name", "Unknown User") if user_info else "Unknown User"
+        log_security_alert(question, user_id, user_role, user_name, "unauthorized_db_modify", f"Blocked SQL: {generated_sql} | Reason: {safety_msg}")
         return f"This operation is not permitted. I can only read and retrieve data from the database. I cannot insert, update, or delete records. (Reason: {safety_msg})"
         
     # LAYER 3: Check Role Permissions
     is_allowed, perm_msg = validate_query_permissions(generated_sql, user_role)
     if not is_allowed:
+        from app.auth.security_logger import log_security_alert
+        from app.auth import user_store
+        user_info = user_store.get_user_by_id(user_id)
+        user_name = user_info.get("full_name", "Unknown User") if user_info else "Unknown User"
+        log_security_alert(question, user_id, user_role, user_name, "unauthorized_column_access", f"Blocked SQL: {generated_sql} | Reason: {perm_msg}")
         return f"Access Denied: {perm_msg}"
         
     # LAYER 4: Inject Row-Level Security Filters

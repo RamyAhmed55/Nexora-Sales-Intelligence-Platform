@@ -24,8 +24,18 @@ def format_chat_history(messages) -> str:
 def safety_gate_node(state: AgentState) -> dict:
     # 1. Moderation
     query = state["query"]
+    user_id = state.get("user_id", "unknown_user")
+    role = state.get("user_role", "unknown_role")
+    
+    # Retrieve user name
+    from app.auth import user_store
+    user_info = user_store.get_user_by_id(user_id)
+    user_name = user_info.get("full_name", "Unknown User") if user_info else "Unknown User"
+    
     is_injection, pattern = detect_injection(query)
     if is_injection:
+        from app.auth.security_logger import log_security_alert
+        log_security_alert(query, user_id, role, user_name, "prompt_injection", f"Matched regex pattern: {pattern}")
         return {
             "is_blocked": True,
             "block_message": f"Security Alert: Your query matches a restricted pattern ({pattern}). Request blocked.",
@@ -42,11 +52,17 @@ def safety_gate_node(state: AgentState) -> dict:
     intent = classify_intent(query, history, llm)
     
     if intent == "malicious":
+        from app.auth.security_logger import log_security_alert
+        log_security_alert(query, user_id, role, user_name, "malicious_intent", "Classified as malicious by safety LLM gate.")
         return {
             "is_blocked": True,
             "block_message": "Security Alert: Query classified as malicious.",
             "route": "blocked"
         }
+        
+    if intent == "out_of_scope":
+        from app.auth.security_logger import log_security_alert
+        log_security_alert(query, user_id, role, user_name, "out_of_scope", "Classified as out of scope by safety LLM gate.")
         
     import langsmith as ls
     rt = ls.get_current_run_tree()

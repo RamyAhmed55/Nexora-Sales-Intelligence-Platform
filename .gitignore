@@ -13,3 +13,5 @@ build/
 htmlcov/
 qdrant_storage/
 grafana_data/
+
+

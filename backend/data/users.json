@@ -1,1 +1,34 @@
-[]
+[
+    {
+        "user_id": "e369e8b4-1606-4d0e-9eaf-7c6d775381b0",
+        "email": "hagarahmedghazi@gmail.com",
+        "password_hash": "$2b$12$29hPCVPHp/OObTISUYKSHeQTBQjmOaqoYctbI4L.L4we3.KOM2BGK",
+        "full_name": "Hagar Ahmed",
+        "role": "admin",
+        "status": "active"
+    },
+    {
+        "user_id": "2aa982a9-2efc-4825-9d2d-6ca51bdb07b3",
+        "email": "yasmin_yasser@gmail.com",
+        "password_hash": "$2b$12$3lEjZgKbNs35Edfy4UhMCeuXY4prGqs5gQ/ce3RkJCGqGqEpfsLS6",
+        "full_name": "Yasmin Yasser",
+        "role": "manager",
+        "status": "active"
+    },
+    {
+        "user_id": "8146a58e-dd70-494a-b921-a1afed80e700",
+        "email": "heba_fathi@gmail.com",
+        "password_hash": "$2b$12$Q/YdFRLSTJsM1Q4bLLWhsez414v8WGGxzVXE7Y/47tRkLi6SVRn.6",
+        "full_name": "Heba Fathi",
+        "role": "support",
+        "status": "active"
+    },
+    {
+        "user_id": "643c5067-ae28-4778-8627-468c732a943f",
+        "email": "mona_reda@gmail.com",
+        "password_hash": "$2b$12$/P8IG9HhLpQXYQP3s6BQzeidTyjoSPI1sLjkWOmKJmQDIUJo.oh1m",
+        "full_name": "Mona Reda",
+        "role": "sales",
+        "status": "active"
+    }
+]
