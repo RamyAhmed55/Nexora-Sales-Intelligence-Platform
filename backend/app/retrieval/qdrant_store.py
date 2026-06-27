@@ -10,8 +10,18 @@ COLLECTION_NAMES = [
     "collection_admin"
 ]
 
+_qdrant_client_instance = None
+
 def get_qdrant_client(url: str) -> QdrantClient:
-    return QdrantClient(url=url)
+    global _qdrant_client_instance
+    if _qdrant_client_instance is None:
+        import os
+        # Run as a local embedded persistent database inside backend/data/qdrant_db
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        db_path = os.path.join(base_dir, "data", "qdrant_db")
+        os.makedirs(os.path.dirname(db_path), exist_ok=True)
+        _qdrant_client_instance = QdrantClient(path=db_path)
+    return _qdrant_client_instance
 
 def create_collection_if_not_exists(client: QdrantClient, collection_name: str, vector_size: int = 384):
     """

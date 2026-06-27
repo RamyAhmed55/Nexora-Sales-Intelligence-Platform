@@ -44,6 +44,7 @@ def log_security_alert(query: str, user_id: str, user_role: str, user_name: str,
                     headers={'Content-Type': 'application/json'},
                     method='POST'
                 )
+                # Wait up to 2 seconds for Slack response so we don't block the request
                 with urllib.request.urlopen(req, timeout=2) as resp:
                     print(f"Sent Slack alert, status: {resp.status}")
             except Exception as se:

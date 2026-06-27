@@ -10,3 +10,8 @@ JOIN products p ON s.product_id = p.id
 GROUP BY p.name 
 ORDER BY total_sales DESC 
 LIMIT 1 | Reason: Your role (manager) cannot access these columns in 'sales_records': id"
+2026-06-27T01:21:36.841631,e369e8b4-1606-4d0e-9eaf-7c6d775381b0,Hagar Ahmed,admin,"UPDATE Product SET column1 = value1, column2 = value2 WHERE condition;",malicious_intent,Classified as malicious by safety LLM gate.
+2026-06-27T01:24:29.181415,e369e8b4-1606-4d0e-9eaf-7c6d775381b0,Hagar Ahmed,admin,"can you change customer name ""Tyrell Corp"" to ""Ahmed Ali""",unauthorized_db_modify,Blocked SQL: UPDATE sales_records SET customer_name = 'Ahmed Ali' WHERE customer_name = 'Tyrell Corp' | Reason: Only SELECT queries are allowed.
+2026-06-27T06:54:20.537130,e369e8b4-1606-4d0e-9eaf-7c6d775381b0,Hagar Ahmed,admin,database backup rotation?,out_of_scope,Classified as out of scope by safety LLM gate.
+2026-06-27T06:54:31.594805,e369e8b4-1606-4d0e-9eaf-7c6d775381b0,Hagar Ahmed,admin,what is database backup rotation?,out_of_scope,Classified as out of scope by safety LLM gate.
+2026-06-27T07:03:10.660579,e369e8b4-1606-4d0e-9eaf-7c6d775381b0,Hagar Ahmed,admin,When does the master database backup rotation occur?,out_of_scope,Classified as out of scope by safety LLM gate.
