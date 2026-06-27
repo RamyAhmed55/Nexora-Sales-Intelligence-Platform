@@ -149,14 +149,15 @@ def get_metrics(user: UserContext = Depends(get_current_user)):
     # 2. Admin, Manager, and Sales views
     try:
         with engine.connect() as conn:
-            # Check dynamic seeding for new sales reps
-            if role == "sales":
-                cnt_res = conn.execute(
-                    text("SELECT COUNT(*) FROM sales_records WHERE sales_rep_id = :user_id"),
-                    {"user_id": user.user_id}
-                ).fetchone()
-                if cnt_res and cnt_res[0] == 0:
-                    seed_for_sales_rep(conn, user.user_id)
+            # Check dynamic seeding for new sales reps (disabled)
+            # if role == "sales":
+            #     cnt_res = conn.execute(
+            #         text("SELECT COUNT(*) FROM sales_records WHERE sales_rep_id = :user_id"),
+            #         {"user_id": user.user_id}
+            #     ).fetchone()
+            #     if cnt_res and cnt_res[0] == 0:
+            #         seed_for_sales_rep(conn, user.user_id)
+            pass
 
             # Build query parameters
             filter_sql = ""
